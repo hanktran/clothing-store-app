@@ -1,0 +1,73 @@
+"use client";
+
+import { useSyncExternalStore } from "react";
+import { useTheme } from "next-themes";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { MoonIcon, SunIcon, SunMoon } from "lucide-react";
+
+const ModeToggle = () => {
+  const { theme, setTheme } = useTheme();
+
+  const getThemeIcon = () => {
+    if (theme === "system") return <SunMoon />;
+    if (theme === "dark") return <MoonIcon />;
+    return <SunIcon />;
+  };
+
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
+
+  if (!mounted) {
+    return null;
+  }
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          aria-label="Toggle Theme"
+          className="focus-visible:ring-0 focus-visible:ring-offset-0"
+        >
+          {getThemeIcon()}
+        </Button>
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent>
+        <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuCheckboxItem
+          checked={theme === "system"}
+          onCheckedChange={() => setTheme("system")}
+        >
+          System
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem
+          checked={theme === "light"}
+          onCheckedChange={() => setTheme("light")}
+        >
+          Light
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem
+          checked={theme === "dark"}
+          onCheckedChange={() => setTheme("dark")}
+        >
+          Dark
+        </DropdownMenuCheckboxItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+export default ModeToggle;
