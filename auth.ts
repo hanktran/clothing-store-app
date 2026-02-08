@@ -6,6 +6,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 import { prisma } from "@/db/prisma";
 import { PrismaAdapter } from "@auth/prisma-adapter";
+import { authConfig } from "./auth.config";
 
 export const config = {
   pages: {
@@ -56,7 +57,8 @@ export const config = {
     }),
   ],
   callbacks: {
-    async session({ session, user, trigger, token }: any) {
+    ...authConfig.callbacks,
+    async session({ session, trigger, token }: any) {
       // Set the user id on the session
       session.user.id = token.id;
       session.user.name = token.name;
