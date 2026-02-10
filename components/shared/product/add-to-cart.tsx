@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { Cart, CartItem } from "@/types";
 import { Plus, Minus, Loader } from "lucide-react";
@@ -17,13 +17,16 @@ const AddToCart = ({
 }) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const [action, setAction] = useState<"add" | "remove" | null>(null);
 
   const handleAddToCart = async () => {
+    setAction("add");
     startTransition(async () => {
       const res = await addItemToCart(item);
 
       if (!res.success) {
         toast.error(res.message);
+        setAction(null);
         return;
       }
 
@@ -33,14 +36,17 @@ const AddToCart = ({
           onClick: () => router.push("/cart"),
         },
       });
+      setAction(null);
     });
   };
 
   const handleRemoveFromCart = async () => {
+    setAction("remove");
     startTransition(async () => {
-      const res = await removeItemFromCart(item.productId);
+      await removeItemFromCart(item.productId);
 
       toast.success(`${item.name} removed from cart.`);
+      setAction(null);
     });
   };
 
@@ -52,9 +58,9 @@ const AddToCart = ({
         type="button"
         variant="outline"
         onClick={handleRemoveFromCart}
-        disabled={isPending}
+        disabled={isPending && action === "remove"}
       >
-        {isPending ? (
+        {isPending && action === "remove" ? (
           <Loader className="w-4 h-4 animate-spin" />
         ) : (
           <Minus className="w-4 h-4" />
@@ -65,9 +71,9 @@ const AddToCart = ({
         type="button"
         variant="outline"
         onClick={handleAddToCart}
-        disabled={isPending}
+        disabled={isPending && action === "add"}
       >
-        {isPending ? (
+        {isPending && action === "add" ? (
           <Loader className="w-4 h-4 animate-spin" />
         ) : (
           <Plus className="w-4 h-4" />
@@ -79,9 +85,9 @@ const AddToCart = ({
       className="w-full"
       type="button"
       onClick={handleAddToCart}
-      disabled={isPending}
+      disabled={isPending && action === "add"}
     >
-      {isPending ? (
+      {isPending && action === "add" ? (
         <Loader className="w-4 h-4 animate-spin" />
       ) : (
         <Plus className="w-4 h-4" />

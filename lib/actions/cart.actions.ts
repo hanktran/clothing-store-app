@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 import { z } from "zod";
 import { auth } from "@/auth";
 import { formatError, round2 } from "../utils";
-import { cartItemSchema, insertCartSchema } from "../validator";
+import { cartItemSchema, insertCartSchema } from "../validators";
 import { prisma } from "@/db/prisma";
 import { CartItem } from "@/types";
 import { Prisma } from "@/lib/generated/prisma";

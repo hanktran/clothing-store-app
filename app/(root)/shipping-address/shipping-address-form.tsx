@@ -5,7 +5,7 @@ import { ShippingAddress } from "@/types";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { shippingAddressSchema } from "@/lib/validator";
+import { shippingAddressSchema } from "@/lib/validators";
 import { shippingAddressDefaultValues } from "@/lib/constants";
 import { toast } from "sonner";
 import { useTransition } from "react";
@@ -45,7 +45,7 @@ const ShippingAddressForm = ({ address }: { address?: ShippingAddress }) => {
       }
 
       toast.success(res.message);
-      router.refresh();
+      router.push('/payment-method');
     });
   };
 

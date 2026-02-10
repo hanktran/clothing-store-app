@@ -25,6 +25,40 @@ function createPrismaClient() {
           },
         },
       },
+      order: {
+        itemsPrice: {
+          needs: { itemsPrice: true },
+          compute(order) {
+            return order.itemsPrice.toString();
+          },
+        },
+        taxPrice: {
+          needs: { taxPrice: true },
+          compute(order) {
+            return order.taxPrice.toString();
+          },
+        },
+        shippingPrice: {
+          needs: { shippingPrice: true },
+          compute(order) {
+            return order.shippingPrice.toString();
+          },
+        },
+        totalPrice: {
+          needs: { totalPrice: true },
+          compute(order) {
+            return order.totalPrice.toString();
+          },
+        },
+      },
+      orderItem: {
+        price: {
+          needs: { price: true },
+          compute(orderItem) {
+            return orderItem.price.toString();
+          },
+        },
+      },
     },
   });
 }
