@@ -113,9 +113,19 @@ export const config = {
         }
       }
 
-      // Handle session updates
-      if (session?.user.name && trigger === "update") {
-        token.name = session.user.name;
+      // Handle session updates - fetch fresh data from database
+      if (trigger === "update") {
+        if (session?.user?.name) {
+          token.name = session.user.name;
+        } else if (token.id) {
+          // Always fetch fresh user data from database on update
+          const dbUser = await prisma.user.findUnique({
+            where: { id: token.id as string },
+          });
+          if (dbUser) {
+            token.name = dbUser.name;
+          }
+        }
       }
 
       return token;
