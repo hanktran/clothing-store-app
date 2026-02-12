@@ -1,26 +1,34 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { useFormStatus } from "react-dom";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 
 import { signInDefaultValues } from "@/lib/constants";
 
 import { signInWithCredentials } from "@/lib/actions/user.actions";
 
 const CredentialsSignInForm = () => {
+  const router = useRouter();
   const [data, action] = useActionState(signInWithCredentials, {
     message: "",
     success: false,
+    callbackUrl: undefined,
   });
 
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
+
+  useEffect(() => {
+    if (data.success && data.callbackUrl) {
+      router.push(data.callbackUrl);
+    }
+  }, [data.success, data.callbackUrl, router]);
 
   const SignInButton = () => {
     const { pending } = useFormStatus();
