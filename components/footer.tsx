@@ -4,7 +4,8 @@ const Footer = () => {
     return (
         <footer className="border-t">
             <div className="p-5 flex-center">
-                &copy; {new Date().getFullYear()} {APP_NAME}. All rights reserved.
+                &copy; {new Date().getFullYear()} {APP_NAME}. All rights
+                reserved.
             </div>
         </footer>
     );

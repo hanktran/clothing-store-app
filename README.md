@@ -5,34 +5,34 @@ A full-stack e-commerce application built with Next.js 16, featuring product bro
 ## 🚀 Features
 
 - **Product Management**
-  - Product listings with detailed views
-  - Product images and descriptions
-  - Stock management
-  - Featured products
+    - Product listings with detailed views
+    - Product images and descriptions
+    - Stock management
+    - Featured products
 
 - **Shopping Cart**
-  - Add/remove items
-  - Quantity adjustment
-  - Real-time price calculations
-  - Persistent cart with session management
+    - Add/remove items
+    - Quantity adjustment
+    - Real-time price calculations
+    - Persistent cart with session management
 
 - **User Authentication**
-  - Sign up / Sign in / Sign out
-  - JWT-based sessions
-  - Role-based access control
-  - Protected routes
+    - Sign up / Sign in / Sign out
+    - JWT-based sessions
+    - Role-based access control
+    - Protected routes
 
 - **Checkout Process**
-  - Shipping address management
-  - Order summary
-  - Secure checkout flow
+    - Shipping address management
+    - Order summary
+    - Secure checkout flow
 
 - **UI/UX**
-  - Responsive design
-  - Dark/Light mode toggle
-  - Toast notifications
-  - Loading states
-  - Shadcn UI components
+    - Responsive design
+    - Dark/Light mode toggle
+    - Toast notifications
+    - Loading states
+    - Shadcn UI components
 
 ## 🛠️ Tech Stack
 
@@ -50,63 +50,69 @@ A full-stack e-commerce application built with Next.js 16, featuring product bro
 
 ## 📋 Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm/yarn/pnpm/bun
 - PostgreSQL database (Neon recommended)
 
 ## 🔧 Installation
 
 1. **Clone the repository**
-   ```bash
-   git clone <your-repo-url>
-   cd prostore
-   ```
+
+    ```bash
+    git clone <your-repo-url>
+    cd prostore
+    ```
 
 2. **Install dependencies**
-   ```bash
-   npm install --legacy-peer-deps
-   ```
+
+    ```bash
+    npm install --legacy-peer-deps
+    ```
 
 3. **Set up environment variables**
-   
-   Create a `.env` file in the root directory:
-   ```env
-   # App Configuration
-   NEXT_PUBLIC_APP_NAME="Prostore"
-   NEXT_PUBLIC_APP_DESCRIPTION="Modern e-commerce platform"
-   NEXT_PUBLIC_SERVER_URL="http://localhost:3000"
 
-   # Database
-   DATABASE_URL="your-postgresql-connection-string"
+    Create a `.env` file in the root directory:
 
-   # Authentication (NextAuth)
-   NEXTAUTH_SECRET="your-secret-key-here"
-   NEXTAUTH_URL="http://localhost:3000"
-   ```
+    ```env
+    # App Configuration
+    NEXT_PUBLIC_APP_NAME="Prostore"
+    NEXT_PUBLIC_APP_DESCRIPTION="Modern e-commerce platform"
+    NEXT_PUBLIC_SERVER_URL="http://localhost:3000"
 
-   Generate a secret for `NEXTAUTH_SECRET`:
-   ```bash
-   openssl rand -base64 32
-   ```
+    # Database
+    DATABASE_URL="your-postgresql-connection-string"
+
+    # Authentication (NextAuth)
+    NEXTAUTH_SECRET="your-secret-key-here"
+    NEXTAUTH_URL="http://localhost:3000"
+    ```
+
+    Generate a secret for `NEXTAUTH_SECRET`:
+
+    ```bash
+    openssl rand -base64 32
+    ```
 
 4. **Set up the database**
-   ```bash
-   # Generate Prisma client
-   npx prisma generate
 
-   # Run migrations
-   npx prisma migrate deploy
+    ```bash
+    # Generate Prisma client
+    npx prisma generate
 
-   # Seed the database (optional)
-   npx tsx db/seed.ts
-   ```
+    # Run migrations
+    npx prisma migrate deploy
+
+    # Seed the database (optional)
+    npx tsx db/seed.ts
+    ```
 
 5. **Run the development server**
-   ```bash
-   npm run dev
-   ```
 
-   Open [http://localhost:3000](http://localhost:3000) in your browser.
+    ```bash
+    npm run dev
+    ```
+
+    Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## 📁 Project Structure
 
@@ -139,6 +145,7 @@ prostore/
 ## 🗄️ Database Schema
 
 Key models:
+
 - **Product:** Product information, pricing, stock
 - **User:** User accounts and authentication
 - **Cart:** Shopping cart with items
@@ -148,6 +155,7 @@ Key models:
 ## 🔐 Authentication
 
 The app uses NextAuth v5 with:
+
 - Credentials provider for email/password
 - JWT sessions
 - Prisma adapter for database persistence
@@ -170,10 +178,10 @@ npx prisma studio    # Open Prisma Studio
 1. Push your code to GitHub
 2. Import the project on [Vercel](https://vercel.com)
 3. Add environment variables in Vercel dashboard:
-   - `DATABASE_URL`
-   - `NEXTAUTH_SECRET` (generate a new one for production)
-   - `NEXTAUTH_URL` (your production URL)
-   - `NEXT_PUBLIC_*` variables
+    - `DATABASE_URL`
+    - `NEXTAUTH_SECRET` (generate a new one for production)
+    - `NEXTAUTH_URL` (your production URL)
+    - `NEXT_PUBLIC_*` variables
 
 4. Deploy!
 
@@ -193,18 +201,21 @@ npx prisma studio    # Open Prisma Studio
 ## 📝 Key Features Implementation
 
 ### Shopping Cart
+
 - Server-side cart management with Prisma
 - Session-based cart for anonymous users
 - Automatic cart merging on user sign-in
 - Real-time cart updates
 
 ### Product Management
+
 - Dynamic product pages with slug-based routing
 - Image optimization with Next.js Image
 - Stock validation
 - Price calculations
 
 ### Authentication Flow
+
 - Protected routes with middleware
 - Session management
 - Password hashing with bcrypt
@@ -224,4 +235,3 @@ This project is for educational purposes.
 - [Prisma Documentation](https://www.prisma.io/docs)
 - [NextAuth Documentation](https://next-auth.js.org)
 - [Shadcn UI](https://ui.shadcn.com)
-

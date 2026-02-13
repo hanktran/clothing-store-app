@@ -1,115 +1,120 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { useEffect } from "react";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { updateProfileSchema } from "@/lib/validators";
-import { updateUserProfile } from "@/lib/actions/user.actions";
 import { toast } from "sonner";
-import { useEffect } from "react";
+import { z } from "zod";
+
+import { Button } from "@/components/ui/button";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+
+import { updateUserProfile } from "@/lib/actions/user.actions";
+import { updateProfileSchema } from "@/lib/validators";
 
 const ProfileForm = () => {
-  const { data: session, update } = useSession();
+    const { data: session, update } = useSession();
 
-  const form = useForm<z.infer<typeof updateProfileSchema>>({
-    resolver: zodResolver(updateProfileSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-    },
-  });
-
-  // Update form when session loads
-  useEffect(() => {
-    if (session?.user) {
-      form.reset({
-        name: session.user.name ?? "",
-        email: session.user.email ?? "",
-      });
-    }
-  }, [session, form]);
-
-  async function onSubmit(data: z.infer<typeof updateProfileSchema>) {
-    const res = await updateUserProfile(data);
-
-    if (!res.success) {
-      toast.error(res.message);
-      return;
-    }
-
-    // Trigger session refresh with updated data
-    await update({
-      ...session,
-      user: {
-        ...session?.user,
-        name: data.name,
-      },
+    const form = useForm<z.infer<typeof updateProfileSchema>>({
+        resolver: zodResolver(updateProfileSchema),
+        defaultValues: {
+            name: "",
+            email: "",
+        },
     });
 
-    toast.success(res.message);
-  }
+    // Update form when session loads
+    useEffect(() => {
+        if (session?.user) {
+            form.reset({
+                name: session.user.name ?? "",
+                email: session.user.email ?? "",
+            });
+        }
+    }, [session, form]);
 
-  return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-5"
-      >
-        <div className="flex flex-col gap-5">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormControl>
-                  <Input
-                    disabled
-                    placeholder="Email"
-                    {...field}
-                    className="input-field"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormControl>
-                  <Input
-                    placeholder="Name"
-                    {...field}
-                    className="input-field"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <Button
-          type="submit"
-          size="lg"
-          disabled={form.formState.isSubmitting}
-          className="button col-span-2 w-full"
-        >
-          {form.formState.isSubmitting ? "Submitting..." : "Update Profile"}
-        </Button>
-      </form>
-    </Form>
-  );
+    async function onSubmit(data: z.infer<typeof updateProfileSchema>) {
+        const res = await updateUserProfile(data);
+
+        if (!res.success) {
+            toast.error(res.message);
+            return;
+        }
+
+        // Trigger session refresh with updated data
+        await update({
+            ...session,
+            user: {
+                ...session?.user,
+                name: data.name,
+            },
+        });
+
+        toast.success(res.message);
+    }
+
+    return (
+        <Form {...form}>
+            <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="flex flex-col gap-5"
+            >
+                <div className="flex flex-col gap-5">
+                    <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                            <FormItem className="w-full">
+                                <FormControl>
+                                    <Input
+                                        disabled
+                                        placeholder="Email"
+                                        {...field}
+                                        className="input-field"
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                            <FormItem className="w-full">
+                                <FormControl>
+                                    <Input
+                                        placeholder="Name"
+                                        {...field}
+                                        className="input-field"
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
+                <Button
+                    type="submit"
+                    size="lg"
+                    disabled={form.formState.isSubmitting}
+                    className="button col-span-2 w-full"
+                >
+                    {form.formState.isSubmitting
+                        ? "Submitting..."
+                        : "Update Profile"}
+                </Button>
+            </form>
+        </Form>
+    );
 };
 export default ProfileForm;
