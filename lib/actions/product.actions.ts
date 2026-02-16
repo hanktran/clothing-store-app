@@ -32,8 +32,8 @@ export async function getProductBySlug(slug: string) {
 }
 
 export async function getAllProducts({
-    query, // eslint-disable-line @typescript-eslint/no-unused-vars
-    category, // eslint-disable-line @typescript-eslint/no-unused-vars
+    query,
+    category,
     page,
     limit = PAGE_SIZE,
 }: {
@@ -42,11 +42,36 @@ export async function getAllProducts({
     page: number;
     limit?: number;
 }) {
+    const queryFilter =
+        query && query !== "all"
+            ? {
+                  OR: [
+                      { name: { contains: query, mode: "insensitive" as const } },
+                      { description: { contains: query, mode: "insensitive" as const } },
+                      { brand: { contains: query, mode: "insensitive" as const } },
+                  ],
+              }
+            : {};
+
+    const categoryFilter =
+        category && category !== "all" ? { category } : {};
+
     const data = await prisma.product.findMany({
+        where: {
+            ...queryFilter,
+            ...categoryFilter,
+        },
+        orderBy: { createdAt: "desc" },
         skip: (page - 1) * limit,
         take: limit,
     });
-    const count = await prisma.product.count();
+
+    const count = await prisma.product.count({
+        where: {
+            ...queryFilter,
+            ...categoryFilter,
+        },
+    });
 
     return { data, totalPages: Math.ceil(count / limit) };
 }
