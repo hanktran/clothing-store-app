@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/sheet";
 
 import ModeToggle from "./mode-toggle";
+import Search from "./search";
 import UserButton from "./user-button";
 
 const Menu = () => {
@@ -32,6 +33,10 @@ const Menu = () => {
                         <EllipsisVertical />
                     </SheetTrigger>
                     <SheetContent className="flex flex-col items-start">
+                        <div className="mt-10">
+                            <Search />
+                        </div>
+
                         <SheetTitle>Menu</SheetTitle>
                         <ModeToggle />
                         <Button asChild variant="ghost">
