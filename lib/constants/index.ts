@@ -25,7 +25,7 @@ export const signUpDefaultValues = {
 export const shippingAddressDefaultValues = {
     fullName: "John Doe",
     streetAddress: "123 Main St",
-    city: "Anytown",
+    city: "Any town",
     postalCode: "12345",
     country: "USA",
 };
@@ -57,3 +57,11 @@ export const productDefaultValues = {
 export const USER_ROLES = process.env.USER_ROLES
     ? process.env.USER_ROLES.split(", ")
     : ["admin", "user"];
+
+export const reviewFormDefaultValues = {
+    title: "",
+    description: "",
+    rating: 0,
+    productId: "",
+    userId: "",
+};
