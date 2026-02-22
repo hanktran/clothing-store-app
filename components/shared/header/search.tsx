@@ -1,3 +1,7 @@
+"use client";
+
+import { useSearchParams } from "next/navigation";
+
 import { SearchIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -10,15 +14,15 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 
-import { getAllCategories } from "@/lib/actions/product.actions";
-
-const Search = async () => {
-    const categories = await getAllCategories();
+const Search = ({ categories }: { categories: { category: string }[] }) => {
+    const searchParams = useSearchParams();
+    const currentCategory = searchParams.get("category") || "all";
+    const currentQuery = searchParams.get("q") || "";
 
     return (
         <form action="/search" method="GET">
             <div className="flex w-full max-w-sm items-center space-x-2">
-                <Select name="category">
+                <Select name="category" defaultValue={currentCategory}>
                     <SelectTrigger className="w-45">
                         <SelectValue placeholder="All" />
                     </SelectTrigger>
@@ -38,6 +42,7 @@ const Search = async () => {
                     type="text"
                     placeholder="Search..."
                     className="md:w-25 lg:w-75"
+                    defaultValue={currentQuery}
                 />
                 <Button>
                     <SearchIcon />

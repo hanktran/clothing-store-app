@@ -16,11 +16,13 @@ function createPrismaClient() {
         result: {
             product: {
                 price: {
+                    needs: { price: true },
                     compute(product) {
                         return product.price.toString();
                     },
                 },
                 rating: {
+                    needs: { rating: true },
                     compute(product) {
                         return product.rating.toString();
                     },

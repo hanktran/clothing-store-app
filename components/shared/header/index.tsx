@@ -1,13 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { getAllCategories } from "@/lib/actions/product.actions";
 import { APP_NAME } from "@/lib/constants";
 
 import CategoriesDrawer from "./categories-drawer";
 import Menu from "./menu";
 import Search from "./search";
 
-const Header = () => {
+const Header = async () => {
+    const categories = await getAllCategories();
+
     return (
         <header className="w-full border-b">
             <div className="wrapper flex-between">
@@ -30,10 +33,10 @@ const Header = () => {
                 </div>
 
                 <div className="hidden md:block">
-                    <Search />
+                    <Search categories={categories} />
                 </div>
 
-                <Menu />
+                <Menu categories={categories} />
             </div>
         </header>
     );

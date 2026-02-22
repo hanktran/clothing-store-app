@@ -15,7 +15,7 @@ import ModeToggle from "./mode-toggle";
 import Search from "./search";
 import UserButton from "./user-button";
 
-const Menu = () => {
+const Menu = ({ categories }: { categories: { category: string }[] }) => {
     return (
         <div className="flex justify-end gap-3">
             <nav className="hidden md:flex w-full max-w-xs gap-1">
@@ -34,7 +34,7 @@ const Menu = () => {
                     </SheetTrigger>
                     <SheetContent className="flex flex-col items-start">
                         <div className="mt-10">
-                            <Search />
+                            <Search categories={categories} />
                         </div>
 
                         <SheetTitle>Menu</SheetTitle>
