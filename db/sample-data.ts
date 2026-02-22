@@ -118,6 +118,12 @@ const sampleData = {
             password: hashSync("123456", 10),
             role: "user",
         },
+        {
+            name: "Han Tran",
+            email: "imhantran@gmail.com",
+            password: hashSync("123456", 10),
+            role: "user",
+        },
     ],
 };
 

@@ -5,6 +5,8 @@ import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 import { auth } from "@/auth";
 import { prisma } from "@/db/prisma";
+import { sendPurchaseReceipt } from "@/email";
+import { ShippingAddress } from "@/types";
 
 import { convertToPlainObject, formatError } from "../utils";
 import { getMyCart } from "./cart.actions";
@@ -278,6 +280,34 @@ export async function updateOrderToPaid({ orderId }: { orderId: string }) {
             },
         });
     });
+
+    const updatedOrder = await prisma.order.findFirst({
+        where: {
+            id: orderId,
+        },
+        include: {
+            orderItems: true,
+            user: { select: { name: true, email: true } },
+        },
+    });
+
+    if (!updatedOrder) {
+        throw new Error("Order not found");
+    }
+
+    // Send the purchase receipt email with the updated order
+    try {
+        await sendPurchaseReceipt({
+            order: {
+                ...updatedOrder,
+                shippingAddress:
+                    updatedOrder.shippingAddress as ShippingAddress,
+            },
+        });
+    } catch (error) {
+        console.error("Failed to send purchase receipt email:", error);
+        // Don't throw error - order is already updated successfully
+    }
 }
 
 export async function updateOrderToPaidByCOD(orderId: string) {
