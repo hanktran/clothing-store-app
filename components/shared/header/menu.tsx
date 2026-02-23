@@ -15,7 +15,7 @@ import ModeToggle from "./mode-toggle";
 import Search from "./search";
 import UserButton from "./user-button";
 
-const Menu = ({ categories }: { categories: { category: string }[] }) => {
+const Menu = ({ categories = [] }: { categories?: { category: string }[] }) => {
     return (
         <div className="flex justify-end gap-3">
             <nav className="hidden md:flex w-full max-w-xs gap-1">

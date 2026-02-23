@@ -14,7 +14,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 
-const Search = ({ categories }: { categories: { category: string }[] }) => {
+const Search = ({ categories = [] }: { categories?: { category: string }[] }) => {
     const searchParams = useSearchParams();
     const currentCategory = searchParams.get("category") || "all";
     const currentQuery = searchParams.get("q") || "";
